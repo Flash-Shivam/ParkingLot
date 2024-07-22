@@ -50,36 +50,40 @@ public class ParkingLotFloor {
             return this.parkedSlots.get(slotNumber).equals(vehicle);
         }
         return false;
-
     }
+
+    public List<Integer> getUnOccupiedSlotsForVehicleType(VehicleType vehicleType) {
+        if(vehicleType.equals(VehicleType.BIKE)){
+            return this.unOccupiedBikeSlots;
+        } else if(vehicleType.equals(VehicleType.TRUCK)){
+            return this.unOccupiedTruckSlots;
+        } else{
+            return this.unOccupiedCarSlots;
+        }
+    }
+
+    public List<Integer> getOccupiedSlotsForVehicleType(VehicleType vehicleType) {
+        if(vehicleType.equals(VehicleType.BIKE)){
+            return this.occupiedBikeSlots;
+        } else if(vehicleType.equals(VehicleType.TRUCK)){
+            return this.occupiedTruckSlots;
+        } else{
+            return this.occupiedCarSlots;
+        }
+    }
+
 
 
     public void addParkedSlot(Vehicle vehicle, Integer slotNumber){
         this.parkedSlots.put(slotNumber, vehicle);
-        if(vehicle.vehicleType == VehicleType.BIKE) {
-            this.occupiedBikeSlots.add(slotNumber);
-            this.unOccupiedBikeSlots.removeFirst();
-        } else if(vehicle.vehicleType == VehicleType.TRUCK) {
-            this.occupiedTruckSlots.add(slotNumber);
-            this.unOccupiedTruckSlots.removeFirst();
-        } else{
-            this.occupiedCarSlots.add(slotNumber);
-            this.unOccupiedCarSlots.removeFirst();
-        }
+        this.getOccupiedSlotsForVehicleType(vehicle.vehicleType).add(slotNumber);
+        this.getUnOccupiedSlotsForVehicleType(vehicle.vehicleType).removeFirst();
     }
 
     public void removeParkedSlot(Vehicle vehicle, Integer slotNumber) {
         this.parkedSlots.remove(slotNumber, vehicle);
-        if(vehicle.vehicleType == VehicleType.BIKE) {
-            this.occupiedBikeSlots.remove(slotNumber);
-            this.unOccupiedBikeSlots.add(slotNumber);
-        } else if(vehicle.vehicleType == VehicleType.TRUCK) {
-            this.occupiedTruckSlots.remove(slotNumber);
-            this.unOccupiedTruckSlots.add(slotNumber);
-        } else{
-            this.occupiedCarSlots.remove(slotNumber);
-            this.unOccupiedCarSlots.add(slotNumber);
-        }
+        this.getOccupiedSlotsForVehicleType(vehicle.vehicleType).remove(slotNumber);
+        this.getUnOccupiedSlotsForVehicleType(vehicle.vehicleType).add(slotNumber);
     }
 
 

@@ -23,74 +23,28 @@ public class ParkingLot {
     }
 
     public void displayFreeCount(VehicleType vehicleType){
-        if(vehicleType == VehicleType.BIKE){
-            for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                System.out.println("No. of free slots for " + vehicleType +" on Floor " + parkingLotFloor.floorNumber + ": " + parkingLotFloor.getUnOccupiedBikeSlots().size());
-            }
-        } else if(vehicleType == VehicleType.TRUCK) {
-            for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                System.out.println("No. of free slots for " + vehicleType +" on Floor " + parkingLotFloor.floorNumber + ": " + parkingLotFloor.getUnOccupiedTruckSlots().size());
-            }
-        } else{
-            for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                System.out.println("No. of free slots for " + vehicleType +" on Floor " + parkingLotFloor.floorNumber + ": " + parkingLotFloor.getUnOccupiedCarSlots().size());
-            }
+        for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
+            System.out.println("No. of free slots for " + vehicleType +" on Floor " + parkingLotFloor.floorNumber + ": " + parkingLotFloor.getUnOccupiedSlotsForVehicleType(vehicleType).size());
         }
     }
 
     public void displayFreeSlots(VehicleType vehicleType){
-        if(vehicleType == VehicleType.BIKE){
-            for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                System.out.print("Free slots for "+ vehicleType + " on Floor " + parkingLotFloor.floorNumber + ": ");
-                for(Integer freeSlot : parkingLotFloor.getUnOccupiedBikeSlots()){
-                    System.out.print(freeSlot + ",");
-                }
-                System.out.println();
+        for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
+            System.out.print("Free slots for "+ vehicleType + " on Floor " + parkingLotFloor.floorNumber + ": ");
+            for(Integer freeSlot : parkingLotFloor.getUnOccupiedSlotsForVehicleType(vehicleType)){
+                System.out.print(freeSlot + ",");
             }
-        } else if(vehicleType == VehicleType.TRUCK) {
-            for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                System.out.print("Free slots for "+ vehicleType + " on Floor " + parkingLotFloor.floorNumber + ": ");
-                for(Integer freeSlot : parkingLotFloor.getUnOccupiedTruckSlots()){
-                    System.out.print(freeSlot + ",");
-                }
-                System.out.println();
-            }
-        } else{
-            for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                System.out.print("Free slots for "+ vehicleType + " on Floor " + parkingLotFloor.floorNumber + ": ");
-                for(Integer freeSlot : parkingLotFloor.getUnOccupiedCarSlots()){
-                    System.out.print(freeSlot + ",");
-                }
-                System.out.println();
-            }
+            System.out.println();
         }
     }
 
     public void displayOccupiedSlots(VehicleType vehicleType){
-        if(vehicleType == VehicleType.BIKE){
-            for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                System.out.print("Occupied slots for "+ vehicleType + " on Floor " + parkingLotFloor.floorNumber + ": ");
-                for(Integer freeSlot : parkingLotFloor.getOccupiedBikeSlots()){
-                    System.out.print(freeSlot + ",");
-                }
-                System.out.println();
+        for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
+            System.out.print("Occupied slots for "+ vehicleType + " on Floor " + parkingLotFloor.floorNumber + ": ");
+            for(Integer freeSlot : parkingLotFloor.getOccupiedSlotsForVehicleType(vehicleType)){
+                System.out.print(freeSlot + ",");
             }
-        } else if(vehicleType == VehicleType.TRUCK) {
-            for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                System.out.print("Occupied slots for "+ vehicleType + " on Floor " + parkingLotFloor.floorNumber + ": ");
-                for(Integer freeSlot : parkingLotFloor.getOccupiedTruckSlots()){
-                    System.out.print(freeSlot + ",");
-                }
-                System.out.println();
-            }
-        } else{
-            for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                System.out.print("Occupied slots for "+ vehicleType + " on Floor " + parkingLotFloor.floorNumber + ": ");
-                for(Integer freeSlot : parkingLotFloor.getOccupiedCarSlots()){
-                    System.out.print(freeSlot + ",");
-                }
-                System.out.println();
-            }
+            System.out.println();
         }
     }
 
@@ -99,63 +53,22 @@ public class ParkingLot {
         Vehicle vehicle = new Vehicle(vehicleType,registrationNumber, color);
         if(!vehicles.contains(vehicle)){
             vehicles.add(vehicle);
-            if(vehicleType == VehicleType.BIKE){
-                boolean flag = false;
-                for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                    if(!parkingLotFloor.getUnOccupiedBikeSlots().isEmpty()){
-                        int slotNumber = parkingLotFloor.getUnOccupiedBikeSlots().getFirst();
-                        parkingLotFloor.addParkedSlot(vehicle, slotNumber);
-                        Ticket ticket = new Ticket(String.valueOf(parkingLotFloor.floorNumber), String.valueOf(slotNumber));
-                        System.out.println("Parked vehicle. Ticket ID: " + ticket.getTicketId());
-                        tickets.put(ticket.getTicketId(), vehicle);
-                        ticketIds.add(ticket.getTicketId());
-                        flag = true;
-                        break;
-                    }
-                }
-
-                if(!flag){
-                    System.out.println("Parking Lot Full");
-                }
-            } else if(vehicleType == VehicleType.TRUCK){
-                boolean flag = false;
-                for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                    if(!parkingLotFloor.getUnOccupiedTruckSlots().isEmpty()){
-                        int slotNumber = parkingLotFloor.getUnOccupiedTruckSlots().getFirst();
-                        parkingLotFloor.addParkedSlot(vehicle, slotNumber);
-                        Ticket ticket = new Ticket(String.valueOf(parkingLotFloor.floorNumber), String.valueOf(slotNumber));
-                        System.out.println("Parked vehicle. Ticket ID: " + ticket.getTicketId());
-                        tickets.put(ticket.getTicketId(), vehicle);
-                        ticketIds.add(ticket.getTicketId());
-                        flag = true;
-                        break;
-                    }
-                }
-
-                if(!flag){
-                    System.out.println("Parking Lot Full");
-                }
-            } else {
-                boolean flag = false;
-                for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
-                    if(!parkingLotFloor.getUnOccupiedCarSlots().isEmpty()){
-                        int slotNumber = parkingLotFloor.getUnOccupiedCarSlots().getFirst();
-                        parkingLotFloor.addParkedSlot(vehicle, slotNumber);
-                        Ticket ticket = new Ticket(String.valueOf(parkingLotFloor.floorNumber), String.valueOf(slotNumber));
-                        System.out.println("Parked vehicle. Ticket ID: " + ticket.getTicketId());
-                        tickets.put(ticket.getTicketId(), vehicle);
-                        ticketIds.add(ticket.getTicketId());
-                        flag = true;
-                        break;
-                    }
-                }
-
-                if(!flag){
-                    System.out.println("Parking Lot Full");
+            boolean flag = false;
+            for(ParkingLotFloor parkingLotFloor : this.parkingLotFloors){
+                if(!parkingLotFloor.getUnOccupiedSlotsForVehicleType(vehicle.vehicleType).isEmpty()){
+                    int slotNumber = parkingLotFloor.getUnOccupiedSlotsForVehicleType(vehicle.vehicleType).getFirst();
+                    parkingLotFloor.addParkedSlot(vehicle, slotNumber);
+                    Ticket ticket = new Ticket(String.valueOf(parkingLotFloor.floorNumber), String.valueOf(slotNumber));
+                    System.out.println("Parked vehicle. Ticket ID: " + ticket.getTicketId());
+                    tickets.put(ticket.getTicketId(), vehicle);
+                    ticketIds.add(ticket.getTicketId());
+                    flag = true;
+                    break;
                 }
             }
-
-
+            if(!flag){
+                System.out.println("Parking Lot Full");
+            }
         } else{
             System.out.println("Vehicle Already Parked");
         }
