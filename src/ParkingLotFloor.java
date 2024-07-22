@@ -21,30 +21,6 @@ public class ParkingLotFloor {
         }
     }
 
-    public List<Integer> getOccupiedBikeSlots(){
-        return this.occupiedBikeSlots;
-    }
-
-    public List<Integer> getOccupiedCarSlots(){
-        return this.occupiedCarSlots;
-    }
-
-    public List<Integer> getOccupiedTruckSlots(){
-        return this.occupiedTruckSlots;
-    }
-
-    public List<Integer> getUnOccupiedBikeSlots(){
-        return this.unOccupiedBikeSlots;
-    }
-
-    public List<Integer> getUnOccupiedCarSlots(){
-        return this.unOccupiedCarSlots;
-    }
-
-    public List<Integer> getUnOccupiedTruckSlots(){
-        return this.unOccupiedTruckSlots;
-    }
-
     public boolean isVehicleParked(Vehicle vehicle, int slotNumber) {
         if(this.parkedSlots.containsKey(slotNumber)){
             return this.parkedSlots.get(slotNumber).equals(vehicle);
@@ -72,8 +48,6 @@ public class ParkingLotFloor {
         }
     }
 
-
-
     public void addParkedSlot(Vehicle vehicle, Integer slotNumber){
         this.parkedSlots.put(slotNumber, vehicle);
         this.getOccupiedSlotsForVehicleType(vehicle.vehicleType).add(slotNumber);
@@ -85,10 +59,5 @@ public class ParkingLotFloor {
         this.getOccupiedSlotsForVehicleType(vehicle.vehicleType).remove(slotNumber);
         this.getUnOccupiedSlotsForVehicleType(vehicle.vehicleType).add(slotNumber);
     }
-
-
-
-
-
 
 }

@@ -10,7 +10,6 @@ public class Ticket {
         this.isValid = true;
     }
 
-
     public void invalidateTicket(){
         this.isValid = false;
     }
